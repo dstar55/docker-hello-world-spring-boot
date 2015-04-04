@@ -2,7 +2,7 @@
 FROM dockerfile/java:oracle-java7
 
 #maintainer 
-MAINTAINER chris@chrisrichardson.net
+MAINTAINER dstar55@yahoo.com
 
 #expose port 8080
 EXPOSE 8080
