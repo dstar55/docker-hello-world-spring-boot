@@ -26,7 +26,7 @@ $ mv ./target/hello*.jar ./data
 $ docker build -t="hello-world-java" .
 ```
 
->Note:if you run this command for first time it will take some time in oredr to download base image from [DockerHub](https://hub.docker.com/)
+>Note:if you run this command for first time it will take some time in order to download base image from [DockerHub](https://hub.docker.com/)
 
 #####Run Docker image
 ```
