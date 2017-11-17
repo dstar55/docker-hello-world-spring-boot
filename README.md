@@ -6,7 +6,7 @@ Installed: Docker, Java 1.8, Maven 3.x
 
 #### Steps
 
-#####C lone source code from git
+##### Clone source code from git
 ```
 $  git clone https://github.com/dstar55/docker-hello-world-spring-boot .
 ```
