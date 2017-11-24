@@ -30,7 +30,7 @@ $ docker build -t="hello-world-java" .
 
 ##### Run Docker image
 ```
-$ docker run -it --rm hello-world-java
+$ docker run -p 8080:8080 -it --rm hello-world-java
 ```
 
 ##### Test application
