@@ -1,10 +1,30 @@
 node {
-   echo 'Hello World'
-   
-   echo "Build Number is: ${env.BUILD_NUMBER}"
-   
-   sh 'env > env.txt' 
-   for (String i : readFile('env.txt').split("\r?\n")) {
-       println i
-   }
+    // holds reference to docker image
+    def dockerImage
+    // ip address of the docker private repository(nexus)
+    
+    def dockerRepoUrl = "192.168.72.130:8083"
+    def dockerImageName = "hello-world-java"
+    def dockerImageTag = "${dockerRepoUrl}/${dockerImageName}:${env.BUILD_NUMBER}"
+    
+    stage('Build Project') {
+      // build project via maven
+      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+    }
+    stage('Build Docker Image') {
+      // build docker image
+      sh "mv ./target/hello*.jar ./data" 
+      
+      dockerImage = docker.build("hello-world-java")
+    }
+    stage('Deploy Docker Image'){
+      
+      // deploy docker image to nexus
+
+      echo "Docker Image Tag Name: ${dockerImageTag}"
+
+      sh "docker login -u admin -p admin123 ${dockerRepoUrl}"
+      sh "docker tag ${dockerImageName} ${dockerImageTag}"
+      sh "docker push ${dockerImageTag}"
+    }
 }
