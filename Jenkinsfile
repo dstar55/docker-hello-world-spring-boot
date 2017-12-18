@@ -22,19 +22,11 @@ node {
   
     stage('Build Project') {
       // build project via maven
-      //sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
-	  sh "'${mvnHome}/bin/mvn' -DskipeTests=true clean package"
+      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
     }
-	
-	stage('Test') {
-      steps {
-	    sh "'${mvnHome}/bin/mvn' test"
-      }
-      post {
-        always {
-          junit 'target/surefire-reports/*.xml'
-        }
-      }
+    stage('Results') {
+      junit '**/target/surefire-reports/TEST-*.xml'
+      archive 'target/*.jar'
     }
 		
     stage('Build Docker Image') {
