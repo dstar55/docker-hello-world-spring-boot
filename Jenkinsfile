@@ -22,7 +22,12 @@ node {
     stage('Build Project') {
       // build project via maven
       sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+    }post {
+        always {
+            junit 'build/reports/**/*.xml'
+        }
     }
+	
     stage('Build Docker Image') {
       // build docker image
       sh "mv ./target/hello*.jar ./data" 
