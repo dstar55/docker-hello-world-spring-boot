@@ -24,9 +24,17 @@ node {
       // build project via maven
       sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
     }
-    stage('Results') {
-      junit '**/target/surefire-reports/TEST-*.xml'
-      archive 'target/*.jar'
+	
+	stage('Publish Tests Results'){
+      parallel(
+        a: {
+          echo "Publish junit Tests Results"
+		  junit '**/target/surefire-reports/TEST-*.xml'
+		  archive 'target/*.jar'
+        },
+        b: {
+          echo "This is branch b"
+      })
     }
 		
     stage('Build Docker Image') {
