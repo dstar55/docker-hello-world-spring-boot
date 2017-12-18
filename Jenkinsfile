@@ -27,12 +27,12 @@ node {
 	
 	stage('Publish Tests Results'){
       parallel(
-        a: {
+        publishJunitTestsResultsToJenkins: {
           echo "Publish junit Tests Results"
 		  junit '**/target/surefire-reports/TEST-*.xml'
 		  archive 'target/*.jar'
         },
-        b: {
+        publishJunitTestsResultsToSonar: {
           echo "This is branch b"
       })
     }
