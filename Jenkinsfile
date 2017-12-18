@@ -19,21 +19,31 @@ node {
       // **       in the global configuration.           
       mvnHome = tool 'maven-3.5.2'
     }    
+  
     stage('Build Project') {
       // build project via maven
-      sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
-    }post {
-        always {
-            junit 'build/reports/**/*.xml'
-        }
+      //sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+	  sh "'${mvnHome}/bin/mvn' -DskipeTests=true clean package"
     }
 	
+	stage('Test') {
+      steps {
+	    sh "'${mvnHome}/bin/mvn' test"
+      }
+      post {
+        always {
+          junit 'target/surefire-reports/*.xml'
+        }
+      }
+    }
+		
     stage('Build Docker Image') {
       // build docker image
       sh "mv ./target/hello*.jar ./data" 
       
       dockerImage = docker.build("hello-world-java")
     }
+   
     stage('Deploy Docker Image'){
       
       // deploy docker image to nexus
