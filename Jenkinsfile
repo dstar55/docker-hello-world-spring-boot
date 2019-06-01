@@ -39,6 +39,7 @@ node {
 		
     stage('Build Docker Image') {
       // build docker image
+      sh "whoami"
       sh "mv ./target/hello*.jar ./data" 
       
       dockerImage = docker.build("hello-world-java")
