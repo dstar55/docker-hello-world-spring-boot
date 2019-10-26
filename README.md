@@ -11,20 +11,11 @@ Installed: Docker, Java 1.8, Maven 3.x
 $  git clone https://github.com/dstar55/docker-hello-world-spring-boot .
 ```
 
-##### Build project with Maven
-```
-$ mvn clean install
-```
-
-##### Move application to data folder
-```
-$ mv ./target/hello*.jar ./data
-```
-
 ##### Build Docker image
 ```
 $ docker build -t="hello-world-java" .
 ```
+This will first run maven build to create jar package and then build hello-world image using built jar package.
 
 >Note:if you run this command for first time it will take some time in order to download base image from [DockerHub](https://hub.docker.com/)
 
