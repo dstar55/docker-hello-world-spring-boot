@@ -48,3 +48,8 @@ test application with
 ```
 $ curl localhost:8080
 ```
+
+the respone should be:
+```
+Hello World
+```
