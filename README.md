@@ -46,3 +46,16 @@ the respone should be
 Hello World
 ```
 
+## Run with docker-compose 
+
+Build and start the container by running 
+
+```
+$ docker-compose up -d 
+```
+
+test application with 
+
+```
+$ curl localhost:8080
+```
