@@ -25,23 +25,12 @@ $ docker run -p 8080:8080 -it --rm hello-world-java
 ```
 
 ##### Test application
-first you need to find ContainerId of the running Docker image
-```
-$ docker ps
-```
-you can find ContainerId in a row where IMAGE column contains 'hello-world-java' phrase
 
-then you need to find IP address of the running Docker image
 ```
-$ docker inspect --format '{{ .NetworkSettings.IPAddress }}' [ContainerId]
+$ curl localhost:8080
 ```
 
-now test application
-```
-$ curl [IPAddress]:8080
-```
-
-the respone should be
+the respone should be:
 ```
 Hello World
 ```
