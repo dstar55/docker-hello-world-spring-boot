@@ -2,7 +2,7 @@ Hello World sample shows how to deploy [SpringBoot](http://projects.spring.io/sp
 
 #### Prerequisite
 
-Installed: Docker, Java 1.8, Maven 3.x
+Installed: Docker, Java 1.8, Maven 3.x, git command line
 
 #### Steps
 
