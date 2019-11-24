@@ -67,6 +67,10 @@ target/
 .idea/gradle.xml
 .idea/libraries
 
+# VS Code:
+.vscode/launch.json
+
+
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml
 
