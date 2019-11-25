@@ -2,7 +2,7 @@ Hello World sample shows how to deploy [SpringBoot](http://projects.spring.io/sp
 
 #### Prerequisite
 
-Installed: Docker, Java 1.8, Maven 3.x, git command line
+Installed: Docker, Java 1.8, Maven 3.x, git command line, optional Docker-Compose
 
 #### Steps
 
@@ -19,7 +19,7 @@ This will first run maven build to create jar package and then build hello-world
 
 >Note:if you run this command for first time it will take some time in order to download base image from [DockerHub](https://hub.docker.com/)
 
-##### Run Docker image
+##### Run Docker Container
 ```
 $ docker run -p 8080:8080 -it --rm hello-world-java
 ```
@@ -33,6 +33,11 @@ $ curl localhost:8080
 the respone should be:
 ```
 Hello World
+```
+
+stop docker container:
+```
+docker stop `docker container ls | grep "hello-world-java:*" | awk '{ print $1 }'`
 ```
 
 ## Run with docker-compose 
@@ -52,4 +57,9 @@ $ curl localhost:8080
 the respone should be:
 ```
 Hello World
+```
+
+stop docker container:
+```
+docker-compose down
 ```
