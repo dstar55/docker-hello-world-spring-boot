@@ -2,7 +2,7 @@ Hello World sample shows how to deploy [SpringBoot](http://projects.spring.io/sp
 
 #### Prerequisite
 
-Installed: 
+Installed:   
 [Docker](https://www.docker.com/)   
 [git](https://www.digitalocean.com/community/tutorials/how-to-contribute-to-open-source-getting-started-with-git)   
 
