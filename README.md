@@ -2,7 +2,14 @@ Hello World sample shows how to deploy [SpringBoot](http://projects.spring.io/sp
 
 #### Prerequisite
 
-Installed: [Docker](https://www.docker.com/), [Java 1.8 or 11.1](https://www.oracle.com/technetwork/java/javase/overview/index.html), [Maven 3.x](https://maven.apache.org/install.html), [git](https://www.digitalocean.com/community/tutorials/how-to-contribute-to-open-source-getting-started-with-git), optional [Docker-Compose](https://docs.docker.com/compose/install/)
+Installed: 
+[Docker](https://www.docker.com/)   
+[git](https://www.digitalocean.com/community/tutorials/how-to-contribute-to-open-source-getting-started-with-git)   
+
+Optional:   
+[Docker-Compose](https://docs.docker.com/compose/install/)   
+[Java 1.8 or 11.1](https://www.oracle.com/technetwork/java/javase/overview/index.html)   
+[Maven 3.x](https://maven.apache.org/install.html)
 
 #### Steps
 
@@ -15,7 +22,7 @@ $  git clone https://github.com/dstar55/docker-hello-world-spring-boot .
 ```
 $ docker build -t="hello-world-java" .
 ```
-This will first run maven build to create jar package and then build hello-world image using built jar package.
+Maven build will be executes during creation of the docker image.
 
 >Note:if you run this command for first time it will take some time in order to download base image from [DockerHub](https://hub.docker.com/)
 
@@ -48,7 +55,7 @@ Build and start the container by running
 $ docker-compose up -d 
 ```
 
-##### Test application with command
+##### Test application with ***curl*** command
 
 ```
 $ curl localhost:8080
