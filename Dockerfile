@@ -12,7 +12,7 @@ RUN mvn package
 
 #pull base image
 
-FROM openjdk:11-jdk-alpine
+FROM openjdk:11-alpine
 
 #maintainer 
 MAINTAINER dstar55@yahoo.com
