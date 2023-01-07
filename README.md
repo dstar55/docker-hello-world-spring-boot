@@ -1,4 +1,4 @@
-Hello World sample shows how to deploy [SpringBoot](http://projects.spring.io/spring-boot/) RESTful web service application with [Docker](https://www.docker.com/)
+Hello World sample shows how to deploy [SpringBoot](http://projects.spring.io/spring-boot/) RESTful web service application with [Docker](https://www.docker.com/) and with [Kubernetes](https://kubernetes.io/)
 
 #### Prerequisite 
 
@@ -10,6 +10,7 @@ Optional:
 [Docker-Compose](https://docs.docker.com/compose/install/)   
 [Java 1.8 or 11.1](https://www.oracle.com/technetwork/java/javase/overview/index.html)   
 [Maven 3.x](https://maven.apache.org/install.html)
+
 
 #### Steps
 
@@ -69,4 +70,61 @@ Hello World
 ##### Stop Docker Container:
 ```
 docker-compose down
+```
+
+### Deploy under the Kuberenetes cluster
+
+#### Prerequisite
+
+##### MiniKube
+
+Installed:
+[MiniKube](https://www.digitalocean.com/community/tutorials/how-to-use-minikube-for-local-kubernetes-development-and-testing)
+
+Started:
+```
+minikube start
+```
+
+
+#### Retrieve and deploy application(hello-spring-boot)
+```
+kubectl create deployment hello-spring-boot --image=dstar55/docker-hello-world-spring-boot:latest
+```
+
+#### Expose the deployment(hello-spring-boot) as a Kubernetes Service,
+```
+kubectl expose deployment hello-spring-boot --type=NodePort --port=8080
+```
+
+#### Check whether the service(hello-spring-boot) is running
+```
+kubectl get service hello-spring-boot
+```
+
+response should something like:
+```
+NAME                TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+hello-spring-boot   NodePort   xx.xx.xxx.xxx   <none>        8082:30619/TCP   59m
+```
+
+#### Retrieve the URL for application(hello-spring-boot)
+```
+minikube service hello-spring-boot --url
+```
+
+response will be http, e.g:
+```
+http://127.0.0.1:44963
+```
+
+##### Test application with ***curl*** command(note: port is randomly created)
+
+```
+$ curl 127.0.0.1:44963
+```
+
+the respone should be:
+```
+Hello World
 ```
