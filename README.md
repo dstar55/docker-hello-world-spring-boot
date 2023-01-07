@@ -87,17 +87,17 @@ minikube start
 ```
 
 
-#### Retrieve and deploy application(hello-spring-boot)
+#### Retrieve and deploy application
 ```
 kubectl create deployment hello-spring-boot --image=dstar55/docker-hello-world-spring-boot:latest
 ```
 
-#### Expose the deployment(hello-spring-boot) as a Kubernetes Service,
+#### Expose the deployment as a Kubernetes Service
 ```
 kubectl expose deployment hello-spring-boot --type=NodePort --port=8080
 ```
 
-#### Check whether the service(hello-spring-boot) is running
+#### Check whether the service is running
 ```
 kubectl get service hello-spring-boot
 ```
@@ -118,7 +118,7 @@ response will be http, e.g:
 http://127.0.0.1:44963
 ```
 
-##### Test application with ***curl*** command(note: port is randomly created)
+#### Test application with ***curl*** command(note: port is randomly created)
 
 ```
 $ curl 127.0.0.1:44963
