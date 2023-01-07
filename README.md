@@ -105,7 +105,7 @@ kubectl get service hello-spring-boot
 response should something like:
 ```
 NAME                TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-hello-spring-boot   NodePort   xx.xx.xxx.xxx   <none>        8082:30619/TCP   59m
+hello-spring-boot   NodePort   xx.xx.xxx.xxx   <none>        8080:xxxxx/TCP   59m
 ```
 
 #### Retrieve the URL for application(hello-spring-boot)
