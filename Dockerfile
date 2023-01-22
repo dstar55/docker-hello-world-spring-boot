@@ -12,7 +12,7 @@ RUN mvn package
 
 #pull base image
 
-FROM openjdk
+FROM eclipse-temurin:11
 
 #maintainer 
 MAINTAINER dstar55@yahoo.com
