@@ -122,7 +122,7 @@ http://127.0.0.1:44963
 #### Test application with ***curl*** command(note: port is randomly created)
 
 ```
-$ curl 127.0.0.1:44963
+curl 127.0.0.1:44963
 ```
 
 response should be:
