@@ -16,12 +16,12 @@ Optional:
 
 ##### Clone source code from git
 ```
-$  git clone https://github.com/dstar55/docker-hello-world-spring-boot .
+git clone https://github.com/dstar55/docker-hello-world-spring-boot .
 ```
 
 ##### Build Docker image
 ```
-$ docker build -t="hello-world-java" .
+docker build -t="hello-world-java" .
 ```
 Maven build will be executes during creation of the docker image.
 
@@ -29,16 +29,16 @@ Maven build will be executes during creation of the docker image.
 
 ##### Run Docker Container
 ```
-$ docker run -p 8080:8080 -it --rm hello-world-java
+docker run -p 8080:8080 -it --rm hello-world-java
 ```
 
 ##### Test application
 
 ```
-$ curl localhost:8080
+curl localhost:8080
 ```
 
-the respone should be:
+response should be:
 ```
 Hello World
 ```
@@ -53,16 +53,16 @@ docker stop `docker container ls | grep "hello-world-java:*" | awk '{ print $1 }
 Build and start the container by running 
 
 ```
-$ docker-compose up -d 
+docker-compose up -d 
 ```
 
 #### Test application with ***curl*** command
 
 ```
-$ curl localhost:8080
+curl localhost:8080
 ```
 
-the respone should be:
+response should be:
 ```
 Hello World
 ```
@@ -81,18 +81,19 @@ docker-compose down
 Installed:
 [MiniKube](https://www.digitalocean.com/community/tutorials/how-to-use-minikube-for-local-kubernetes-development-and-testing)
 
-Started:
+Start minikube with command:
 ```
 minikube start
 ```
 
 
 #### Retrieve and deploy application
+
 ```
 kubectl create deployment hello-spring-boot --image=dstar55/docker-hello-world-spring-boot:latest
 ```
 
-#### Expose the deployment as a Kubernetes Service
+#### Expose deployment as a Kubernetes Service
 ```
 kubectl expose deployment hello-spring-boot --type=NodePort --port=8080
 ```
@@ -108,12 +109,12 @@ NAME                TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AG
 hello-spring-boot   NodePort   xx.xx.xxx.xxx   <none>        8080:xxxxx/TCP   59m
 ```
 
-#### Retrieve the URL for application(hello-spring-boot)
+#### Retrieve URL for application(hello-spring-boot)
 ```
 minikube service hello-spring-boot --url
 ```
 
-response will be http, e.g:
+response will be http..., e.g:
 ```
 http://127.0.0.1:44963
 ```
@@ -124,7 +125,7 @@ http://127.0.0.1:44963
 $ curl 127.0.0.1:44963
 ```
 
-the respone should be:
+response should be:
 ```
 Hello World
 ```
