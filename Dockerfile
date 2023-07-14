@@ -15,7 +15,7 @@ RUN mvn package
 FROM eclipse-temurin:11
 
 #maintainer 
-MAINTAINER dstar55@yahoo.com
+MAINTAINER cjsethu@local.com
 #expose port 8080
 EXPOSE 8080
 
