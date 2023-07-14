@@ -8,7 +8,6 @@ node {
 
     agent {
         label 'docker-agent'
-        args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
     }
 
     stage('Clone Repo') {
@@ -36,7 +35,7 @@ node {
     stage('Build Docker Image') {
         // build docker image
         sh "whoami"
-        sh "ls -all /var/run/docker.sock"
+//        sh "ls -all /var/run/docker.sock"
         sh "mv ./target/hello*.jar ./data"
 
         dockerImage = docker.build("hello-world-java")
