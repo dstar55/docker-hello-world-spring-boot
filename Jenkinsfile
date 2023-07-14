@@ -1,10 +1,11 @@
-pipeline {
-    def mvnHome = tool 'maven-3.9.3'
-    def dockerImage
-    def dockerRepoUrl = "localhost:8083"
-    def dockerImageName = "hello-world-java"
-    def dockerImageTag = "${dockerRepoUrl}/${dockerImageName}:${env.BUILD_NUMBER}"
+// common variables
+def mvnHome = tool 'maven-3.9.3'
+def dockerImage
+def dockerRepoUrl = "localhost:8083"
+def dockerImageName = "hello-world-java"
+def dockerImageTag = "${dockerRepoUrl}/${dockerImageName}:${env.BUILD_NUMBER}"
 
+pipeline {
     agent {
         dockerfile {
             filename 'Dockerfile'
