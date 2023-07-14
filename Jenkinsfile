@@ -7,11 +7,7 @@ def dockerImageTag = "${dockerRepoUrl}/${dockerImageName}:${env.BUILD_NUMBER}"
 
 pipeline {
     agent {
-        dockerfile {
-            filename 'Dockerfile'
-            label 'docker-agent'
-            args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
-        }
+        label 'docker-agent'
     }
     options {
         disableConcurrentBuilds()
@@ -29,41 +25,56 @@ pipeline {
         }
 
         stage('Build Project') {
-            steps {
-                // build project via maven
-                sh "'${mvnHome}/bin/mvn' --batch-mode clean package"
+            agent {
+                dockerfile {
+                    filename 'Dockerfile'
+                    args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
+                }
+            }
+            stages {
+                stage('Clean Package') {
+                    steps {
+                        // build project via maven
+                        sh "'${mvnHome}/bin/mvn' --batch-mode clean package"
+                    }
+                }
+
+                stage('Publish Tests Results') {
+                    steps {
+                        parallel(
+                            publishJunitTestsResultsToJenkins: {
+                                echo "Publish junit Tests Results"
+                                junit '**/target/surefire-reports/test-*.xml'
+                                archive 'target/*.jar'
+                            },
+                            publishJunitTestsResultsToSonar: {
+                                echo "This is branch b"
+                            })
+                    }
+                }
+
+                stage('Build Docker Image') {
+                    steps {
+                        // build docker image
+                        sh "whoami"
+                        sh "ls -all /var/run/docker.sock"
+                        sh "mv ./target/hello*.jar ./data"
+                        dockerImage = docker.build("hello-world-java")
+                    }
+                }
+
+                stage('Deploy Docker Image') {
+                    steps {
+                        // deploy docker image to nexus
+                        echo "Docker Image Tag Name: ${dockerImageTag}"
+                    }
+                }
             }
         }
-
-        stage('Publish Tests Results') {
-            steps {
-                parallel(
-                    publishJunitTestsResultsToJenkins: {
-                        echo "Publish junit Tests Results"
-                        junit '**/target/surefire-reports/test-*.xml'
-                        archive 'target/*.jar'
-                    },
-                    publishJunitTestsResultsToSonar: {
-                        echo "This is branch b"
-                    })
-            }
-        }
-
-        stage('Build Docker Image') {
-            steps {
-                // build docker image
-                sh "whoami"
-                sh "ls -all /var/run/docker.sock"
-                sh "mv ./target/hello*.jar ./data"
-                dockerImage = docker.build("hello-world-java")
-            }
-        }
-
-        stage('Deploy Docker Image') {
-            steps {
-                // deploy docker image to nexus
-                echo "Docker Image Tag Name: ${dockerImageTag}"
-            }
+    }
+    post {
+        always {
+            sh 'echo Cleaning Docker and Shutting Down Server'
         }
     }
 }
