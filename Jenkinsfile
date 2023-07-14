@@ -1,80 +1,57 @@
-// common variables
-def mvnHome = tool 'maven-3.9.3'
-def dockerImage
-def dockerRepoUrl = "localhost:8083"
-def dockerImageName = "hello-world-java"
-def dockerImageTag = "${dockerRepoUrl}/${dockerImageName}:${env.BUILD_NUMBER}"
+node {
+    // ** NOTE: This 'maven-3.9.3' Maven tool must be configured in the Jenkins Global Configuration.
+    def mvnHome = tool 'maven-3.9.3'
+    def dockerImage
+    def dockerRepoUrl = "localhost:8083"
+    def dockerImageName = "hello-world-java"
+    def dockerImageTag = "${dockerRepoUrl}/${dockerImageName}:${env.BUILD_NUMBER}"
 
-pipeline {
     agent {
-        label 'docker-agent'
+        dockerfile {
+            filename 'Dockerfile'
+            label 'docker-agent'
+            args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
+        }
     }
+
     options {
         disableConcurrentBuilds()
-        buildDiscarder(logRotator(numToKeepStr: '30', daysToKeepStr: '14'))
+        buildDiscarder(logRotator(numToKeepStr: '10', daysToKeepStr: '10'))
         skipStagesAfterUnstable()
     }
-    stages {
-        stage('Clone Repo') { // for display purposes
-            steps {
-                // Get some code from a GitHub repository
-                git 'https://github.com/cjsethu/docker-hello-world-spring-boot.git'
-                // below tool must configured in Jenkins
-                mvnHome = tool 'maven-3.9.3'
-            }
-        }
 
-        stage('Build Project') {
-            agent {
-                dockerfile {
-                    filename 'Dockerfile'
-                    args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
-                }
-            }
-            stages {
-                stage('Clean Package') {
-                    steps {
-                        // build project via maven
-                        sh "'${mvnHome}/bin/mvn' --batch-mode clean package"
-                    }
-                }
-
-                stage('Publish Tests Results') {
-                    steps {
-                        parallel(
-                            publishJunitTestsResultsToJenkins: {
-                                echo "Publish junit Tests Results"
-                                junit '**/target/surefire-reports/test-*.xml'
-                                archive 'target/*.jar'
-                            },
-                            publishJunitTestsResultsToSonar: {
-                                echo "This is branch b"
-                            })
-                    }
-                }
-
-                stage('Build Docker Image') {
-                    steps {
-                        // build docker image
-                        sh "whoami"
-                        sh "ls -all /var/run/docker.sock"
-                        sh "mv ./target/hello*.jar ./data"
-                        dockerImage = docker.build("hello-world-java")
-                    }
-                }
-
-                stage('Deploy Docker Image') {
-                    steps {
-                        // deploy docker image to nexus
-                        echo "Docker Image Tag Name: ${dockerImageTag}"
-                    }
-                }
-            }
-        }
+    stage('Clone Repo') {
+        git 'https://github.com/dstar55/docker-hello-world-spring-boot.git'
+        mvnHome = $ { mvnHome }
     }
-    post {
-        always {
-            sh 'echo Cleaning Docker and Shutting Down Server'
-        }
+
+    stage('Build Project') {
+        // build project via maven
+        sh "'${mvnHome}/bin/mvn' -Dmaven.test.failure.ignore clean package"
+    }
+
+    stage('Publish Tests Results') {
+        parallel(
+            publishJunitTestsResultsToJenkins: {
+                echo "Publish junit Tests Results"
+                junit '**/target/surefire-reports/TEST-*.xml'
+                archive 'target/*.jar'
+            },
+            publishJunitTestsResultsToSonar: {
+                echo "This is branch b"
+            })
+    }
+
+    stage('Build Docker Image') {
+        // build docker image
+        sh "whoami"
+        sh "ls -all /var/run/docker.sock"
+        sh "mv ./target/hello*.jar ./data"
+
+        dockerImage = docker.build("hello-world-java")
+    }
+
+    stage('Deploy Docker Image') {
+        echo "Docker Image Tag Name: ${dockerImageTag}"
     }
 }
