@@ -24,8 +24,8 @@ node {
         parallel(
             publishJunitTestsResultsToJenkins: {
                 echo "Publish junit Tests Results"
-                junit '**/target/surefire-reports/TEST-*.xml'
-                archive 'target/*.jar'
+                junit '**/target/surefire-reports/test-*.xml'
+                archiveArtifacts artifacts: 'target/*.jar, target/lib/*.jar'
             },
             publishJunitTestsResultsToSonar: {
                 echo "This is branch b"
