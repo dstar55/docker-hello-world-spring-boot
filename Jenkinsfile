@@ -14,12 +14,6 @@ node {
         }
     }
 
-    options {
-        disableConcurrentBuilds()
-        buildDiscarder(logRotator(numToKeepStr: '10', daysToKeepStr: '10'))
-        skipStagesAfterUnstable()
-    }
-
     stage('Clone Repo') {
         git 'https://github.com/dstar55/docker-hello-world-spring-boot.git'
         mvnHome = $ { mvnHome }
