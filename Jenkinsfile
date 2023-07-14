@@ -16,7 +16,7 @@ node {
 
     stage('Clone Repo') {
         git 'https://github.com/dstar55/docker-hello-world-spring-boot.git'
-        mvnHome = $ { mvnHome }
+        mvnHome = "${mvnHome}"
     }
 
     stage('Build Project') {
