@@ -8,11 +8,7 @@ node {
 
     agent {
         label 'docker-agent'
-        dockerfile {
-            filename 'Dockerfile'
-            label 'docker-agent'
-            args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
-        }
+        args '-u root:root -v /var/run/docker.sock:/var/run/docker.sock'
     }
 
     stage('Clone Repo') {
