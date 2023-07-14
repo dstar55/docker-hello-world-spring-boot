@@ -7,6 +7,7 @@ node {
     def dockerImageTag = "${dockerRepoUrl}/${dockerImageName}:${env.BUILD_NUMBER}"
 
     agent {
+        node { label 'docker-agent' }
         dockerfile {
             filename 'Dockerfile'
             label 'docker-agent'
