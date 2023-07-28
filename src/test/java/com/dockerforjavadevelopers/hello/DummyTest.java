@@ -1,13 +1,12 @@
 package com.dockerforjavadevelopers.hello;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class DummyTest {
 
   @Test
   public void aTest() {
-    assertEquals(true, true);
+    Assertions.assertTrue(true);
   }
 }

@@ -1,27 +1,17 @@
-# Maven build container 
-
-FROM maven:3.9.3-openjdk-11 AS maven_build
-
-COPY pom.xml /tmp/
-
-COPY src /tmp/src/
-
+# build application with maven :: stage 1
+FROM maven:3.9.3-amazoncorretto-17 AS maven_build
 WORKDIR /tmp/
+COPY pom.xml /tmp/
+COPY src /tmp/src/
+RUN mvn clean package
+# RUN ls -ahl target
 
-RUN mvn package
-
-#pull base image
-
-FROM eclipse-temurin:11
-
-#maintainer 
+# run application with java :: stage 2
+FROM eclipse-temurin:17
 MAINTAINER cjsethu@local.com
-#expose port 8080
-EXPOSE 8080
-
-#default command
-CMD java -jar /data/hello-world-0.1.0.jar
-
-#copy hello world to docker image from builder image
-
-COPY --from=maven_build /tmp/target/hello-world-0.1.0.jar /data/hello-world-0.1.0.jar
+EXPOSE 9090
+# Copy image from previous stage
+COPY --from=maven_build /tmp/target/hello-world-0.1.0.jar /app/hello-world.jar
+ENV JAVA_OPTS="-Dserver.port=9090"
+CMD java $JAVA_OPTS -jar /app/hello-world.jar
+# ENTRYPOINT ["java", $JAVA_OPTS, "-jar", "/app/hello-world.jar"]
