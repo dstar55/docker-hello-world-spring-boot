@@ -35,7 +35,7 @@ the respone should be:
 Hello World
 ```
 
-## Run with docker-compose 
+### Run with docker-compose 
 
 Build and start the container by running 
 
