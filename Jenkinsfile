@@ -1,5 +1,5 @@
 node {
-    // reference to maven
+    // reference to mvn
     // ** NOTE: This 'maven-3.6.1' Maven tool must be configured in the Jenkins Global Configuration.   
     def mvnHome = tool 'maven-3.8.5'
 
