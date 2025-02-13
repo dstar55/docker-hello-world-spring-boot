@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 657880976613.dkr.ecr.us-east-1.amazonaws.com/docker-hello-world-spring-boot
+      - IMAGE_URI=657880976613.dkr.ecr.us-east-1.amazonaws.com/docker-hello-world-spring-boot:latest
+  build:
+    commands:
+      - echo Building Docker image...
+      - docker build -t $IMAGE_URI .
+      - docker tag $IMAGE_URI $IMAGE_URI
+  post_build:
+    commands:
+      - echo Pushing Docker image to ECR...
+      - docker push $IMAGE_URI
+      - echo Writing image details to imagedefinitions.json...
+      - printf '[{"name":"springboot-container","imageUri":"%s"}]' $IMAGE_URI > imagedefinitions.json
+artifacts:
+  files: imagedefinitions.json
